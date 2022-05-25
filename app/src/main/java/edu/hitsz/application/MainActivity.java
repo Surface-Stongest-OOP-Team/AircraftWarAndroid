@@ -14,7 +14,7 @@ import edu.hitsz.R;
 import edu.hitsz.application.game.CasualMode;
 import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
-
+//test message
 public class MainActivity extends AppCompatActivity {
     private MySurfaceView mySurfaceView;
     public static int screenWidth;
