@@ -17,7 +17,8 @@ public class MySurfaceView extends SurfaceView implements
         SurfaceHolder.Callback ,Runnable{
     int count = 0;
     public float x = 50, y = 50;
-    int screenWidth = 480, screenHeight = 800;
+    static int screenWidth = 480;
+    static int screenHeight = 800;
     boolean mbLoop = false; //控制绘画线程的标志位
     protected SurfaceHolder mSurfaceHolder;
     protected Canvas canvas;  //绘图的画布
