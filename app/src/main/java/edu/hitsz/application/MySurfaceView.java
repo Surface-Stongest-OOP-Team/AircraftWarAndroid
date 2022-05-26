@@ -24,6 +24,7 @@ public class MySurfaceView extends SurfaceView implements
     protected Canvas canvas;  //绘图的画布
     protected Paint mPaint;
 
+
     public void loadImage() {
         ImageManager.BACKGROUND_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
 

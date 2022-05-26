@@ -4,6 +4,7 @@ import edu.hitsz.aircraft.*;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.bullet.BaseBullet;
@@ -377,38 +378,47 @@ public abstract class AbstractGame extends MySurfaceView {
         if(backGroundTop==screenHeight){
             this.backGroundTop=0;
         }
-        for(AbstractProp prop:props){
+        drawAircraft();
+        drawScoreAndLife();
+        mSurfaceHolder.unlockCanvasAndPost(canvas);
+    }
+
+    private void drawAircraft() {
+        for (AbstractProp prop:props){
             if(prop.getClass().equals(BloodProp.class)){
-                canvas.drawBitmap(ImageManager.PROP_BLOOD_IMAGE,prop.getLocationX()-ImageManager.PROP_BLOOD_IMAGE.getWidth()/2,prop.getLocationY(),mPaint);
+                canvas.drawBitmap(ImageManager.PROP_BLOOD_IMAGE,prop.getLocationX()-ImageManager.PROP_BLOOD_IMAGE.getWidth()/2,prop.getLocationY()-ImageManager.PROP_BLOOD_IMAGE.getHeight()/2,mPaint);
             }
             else if(prop.getClass().equals(BombProp.class)){
-                canvas.drawBitmap(ImageManager.PROP_BOMB_IMAGE,prop.getLocationX()-ImageManager.PROP_BOMB_IMAGE.getWidth()/2,prop.getLocationY(),mPaint);
+                canvas.drawBitmap(ImageManager.PROP_BOMB_IMAGE,prop.getLocationX()-ImageManager.PROP_BOMB_IMAGE.getWidth()/2,prop.getLocationY()-ImageManager.PROP_BOMB_IMAGE.getHeight()/2,mPaint);
             }
             else if(prop.getClass().equals(BulletProp.class)){
-                canvas.drawBitmap(ImageManager.PROP_BULLET_IMAGE,prop.getLocationX()-ImageManager.PROP_BULLET_IMAGE.getWidth()/2,prop.getLocationY(),mPaint);
+                canvas.drawBitmap(ImageManager.PROP_BULLET_IMAGE,prop.getLocationX()-ImageManager.PROP_BULLET_IMAGE.getWidth()/2,prop.getLocationY()-ImageManager.PROP_BULLET_IMAGE.getHeight()/2,mPaint);
             }
             else {}
         }
-        for(BaseBullet enemyBullet:enemyBullets){
-            canvas.drawBitmap(ImageManager.ENEMY_BULLET_IMAGE,enemyBullet.getLocationX()-ImageManager.ENEMY_BULLET_IMAGE.getWidth()/2,enemyBullet.getLocationY(),mPaint);
+        for (BaseBullet enemyBullet : enemyBullets) {
+            canvas.drawBitmap(ImageManager.ENEMY_BULLET_IMAGE, enemyBullet.getLocationX() - ImageManager.ENEMY_BULLET_IMAGE.getWidth() / 2, enemyBullet.getLocationY()-ImageManager.ENEMY_BULLET_IMAGE.getHeight()/2, mPaint);
         }
-        for(BaseBullet heroBullet:heroBullets){
-            canvas.drawBitmap(ImageManager.HERO_BULLET_IMAGE,heroBullet.getLocationX()-ImageManager.HERO_BULLET_IMAGE.getWidth()/2,heroBullet.getLocationY(),mPaint);
+        for (BaseBullet heroBullet : heroBullets) {
+            canvas.drawBitmap(ImageManager.HERO_BULLET_IMAGE, heroBullet.getLocationX() - ImageManager.HERO_BULLET_IMAGE.getWidth() / 2, heroBullet.getLocationY()-ImageManager.HERO_BULLET_IMAGE.getHeight()/2, mPaint);
         }
-        for(AbstractAircraft enemyAircraft:enemyAircrafts){
-            if(enemyAircraft.getClass().equals(Boss.class)){
-                canvas.drawBitmap(ImageManager.BOSS_IMAGE,enemyAircraft.getLocationX()-ImageManager.BOSS_IMAGE.getWidth()/2,enemyAircraft.getLocationY(),mPaint);
+        for (AbstractAircraft enemyAircraft : enemyAircrafts) {
+            if (enemyAircraft.getClass().equals(Boss.class)) {
+                canvas.drawBitmap(ImageManager.BOSS_IMAGE, enemyAircraft.getLocationX() - ImageManager.BOSS_IMAGE.getWidth() / 2, enemyAircraft.getLocationY()-ImageManager.BOSS_IMAGE.getHeight()/2, mPaint);
+            } else if (enemyAircraft.getClass().equals(Elite.class)) {
+                canvas.drawBitmap(ImageManager.ELITE_IMAGE, enemyAircraft.getLocationX() - ImageManager.ELITE_IMAGE.getWidth() / 2, enemyAircraft.getLocationY()-ImageManager.ELITE_IMAGE.getHeight()/2, mPaint);
+            } else if (enemyAircraft.getClass().equals(MobEnemy.class)) {
+                canvas.drawBitmap(ImageManager.MOB_ENEMY_IMAGE, enemyAircraft.getLocationX() - ImageManager.MOB_ENEMY_IMAGE.getWidth() / 2, enemyAircraft.getLocationY()-ImageManager.MOB_ENEMY_IMAGE.getHeight()/2, mPaint);
+            } else {
             }
-            else if(enemyAircraft.getClass().equals(Elite.class)){
-                canvas.drawBitmap(ImageManager.ELITE_IMAGE,enemyAircraft.getLocationX()-ImageManager.ELITE_IMAGE.getWidth()/2,enemyAircraft.getLocationY(),mPaint);
-            }
-            else if(enemyAircraft.getClass().equals(MobEnemy.class)){
-                canvas.drawBitmap(ImageManager.MOB_ENEMY_IMAGE,enemyAircraft.getLocationX()-ImageManager.MOB_ENEMY_IMAGE.getWidth()/2,enemyAircraft.getLocationY(),mPaint);
-            }
-            else{}
         }
-        canvas.drawBitmap(ImageManager.HERO_IMAGE,heroAircraft.getLocationX()-ImageManager.HERO_IMAGE.getWidth()/2,heroAircraft.getLocationY(),mPaint);
-        mSurfaceHolder.unlockCanvasAndPost(canvas);
+        canvas.drawBitmap(ImageManager.HERO_IMAGE, heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2, heroAircraft.getLocationY()-ImageManager.HERO_IMAGE.getHeight()/2, mPaint);
+    }
+
+    private void drawScoreAndLife(){
+        mPaint.setTextSize(40);
+        canvas.drawText("Score:"+score,5,35,mPaint);
+        canvas.drawText("Life:"+heroAircraft.getHp(),5,80,mPaint);
     }
 //    @Override
 //    public void paint(Graphics g) {

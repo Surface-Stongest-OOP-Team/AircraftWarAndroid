@@ -76,8 +76,8 @@ public class HeroController{
 
         return hx + hWidth/2 > event.getX()
                 && hx - hWidth/2 < event.getX()
-                && hy +  hHeight > event.getY()
-                && hy < event.getY();
+                && hy + hHeight/2 > event.getY()
+                && hy - hHeight/2< event.getY();
 
     }
 
