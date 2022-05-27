@@ -9,6 +9,7 @@ import edu.hitsz.strategy.Single;
 
 import java.util.List;
 
+import static edu.hitsz.application.MainActivity.myBinder;
 import static edu.hitsz.bullet.BulletType.*;
 
 /**
@@ -74,7 +75,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @return 射击出的子弹List
      */
     public List<BaseBullet> shoot() {
-        //new MusicThread("src/videos/bullet.wav",false).start();
+        myBinder.playBullet();
         return fireStrategy.executeStrategy(this.getLocationX(),this.getLocationY(),this.getSpeedX(),this.getSpeedY());
     }
 

@@ -46,15 +46,22 @@ public class MusicService extends Service {
     }
 
     public class MyBinder extends Binder {
-
-        public void playBullet(){
+        public void playBulletHit(){
             mSoundPool.play(soundID.get(1), 1, 1, 0,0,1);
         }
+        public void stopBulletHit(){mSoundPool.stop(soundID.get(1));}
+        public void playGameOver(){mSoundPool.play(soundID.get(2), 1, 1, 0, 0, 1);}
+        public void stopGameOver(){mSoundPool.stop(soundID.get(2));}
+        public void playBoss(){mSoundPool.play(soundID.get(3), 1, 1, 0, 0, 1);}
+        public void stopBoss(){mSoundPool.stop(soundID.get(3));}
+        public void playBombExplosion(){mSoundPool.play(soundID.get(4), 1, 1, 0, 0, 1);}
+        public void stopBombExplosion(){mSoundPool.stop(soundID.get(4));}
+        public void playGetSupply(){mSoundPool.play(soundID.get(5), 1, 1, 0, 0, 1);}
+        public void stopGetSupply(){mSoundPool.stop(soundID.get(5));}
+        public void playBullet(){mSoundPool.play(soundID.get(6), 1, 1, 0, 0, 1);}
+        public void stopBullet(){mSoundPool.stop(soundID.get(6));}
 
-        public void playGameOver(){
-
-            mSoundPool.play(soundID.get(2), 1, 1, 0, 0, 1);
-        }
+        public void stopMusic() {MusicService.this.stopMusic();}
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {

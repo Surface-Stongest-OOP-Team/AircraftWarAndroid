@@ -1,5 +1,7 @@
 package edu.hitsz.application;
 
+import static edu.hitsz.application.MainActivity.myBinder;
+
 import edu.hitsz.aircraft.*;
 
 import android.content.Context;
@@ -105,7 +107,7 @@ public abstract class AbstractGame extends MySurfaceView {
         //userDao.readFromFile();
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
-      //  MusicThread musicPlay=new MusicThread("src/videos/bgm.wav",true);
+
         Runnable task = () -> {
 
             time += timeInterval;
@@ -143,21 +145,14 @@ public abstract class AbstractGame extends MySurfaceView {
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
-//                executorService.shutdown();
 
                 executorService.shutdown();
-//                musicPlay.stopPlay();
-//                musicPlay.interrupt();
-//                if(boss!=null){
-//                    boss.stopMusic();
-//                }
-//
-//                gameOverFlag = true;
-//
-//                synchronized (frame) {
-//                    frame.setVisible(false);
-//                    frame.notify();
-//                }
+
+                myBinder.stopMusic();
+                if(boss!=null){
+                    boss.stopMusic();
+                }
+                gameOverFlag = true;
             }
 
         };
@@ -167,9 +162,6 @@ public abstract class AbstractGame extends MySurfaceView {
          * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
          */
 
-//        if(Settings.systemMusicState== Settings.SystemMusicState.ON) {
-//            musicPlay.start();
-//        }
         executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
 
     }
@@ -265,7 +257,7 @@ public abstract class AbstractGame extends MySurfaceView {
                     continue;
                 }
                 if (enemyAircraft.crash(bullet)) {
-                 //   new MusicThread("src/videos/bullet_hit.wav",false).start();
+                    myBinder.playBulletHit();
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
                     enemyAircraft.decreaseHp(bullet.getPower());
@@ -298,7 +290,7 @@ public abstract class AbstractGame extends MySurfaceView {
         for(AbstractProp prs : props){
             if(prs.notValid()) {continue;}
             if(prs.crash(heroAircraft)) {
-            //    new MusicThread("src/videos/get_supply.wav",false).start();
+                myBinder.playGetSupply();
                 if(prs instanceof BloodProp){
                     heroAircraft.decreaseHp(-40);
                 }else if(prs instanceof BombProp){

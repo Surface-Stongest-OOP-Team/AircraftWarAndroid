@@ -11,6 +11,7 @@ import edu.hitsz.strategy.Single;
 import java.util.LinkedList;
 import java.util.List;
 
+import static edu.hitsz.application.MainActivity.myBinder;
 import static edu.hitsz.bullet.BulletType.ENEMY;
 
 public class Boss extends AbstractAircraft{
@@ -25,14 +26,11 @@ public class Boss extends AbstractAircraft{
         playMusic();
     }
 
-//    MusicThread musicThread;
     public void playMusic(){
-//        musicThread=new MusicThread("src/videos/bgm_boss.wav",true);
-//        musicThread.start();
+        myBinder.playBoss();
     }
     public void stopMusic(){
-//        musicThread.interrupt();
-//        musicThread.stopPlay();
+        myBinder.stopBoss();
     }
 
     @Override

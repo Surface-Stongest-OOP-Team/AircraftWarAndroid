@@ -1,6 +1,7 @@
 package edu.hitsz.application;
 
 import static edu.hitsz.application.Settings.Difficulty.Casual;
+import static edu.hitsz.application.Settings.Difficulty.Medium;
 import static edu.hitsz.application.Settings.SystemMusicState.OFF;
 import static edu.hitsz.application.Settings.SystemMusicState.ON;
 
@@ -18,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import edu.hitsz.R;
 import edu.hitsz.application.game.CasualMode;
+import edu.hitsz.application.game.MediumMode;
 import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
 //test message
@@ -28,17 +30,17 @@ public class MainActivity extends AppCompatActivity {
     public static int screenHeight;
     public static UserDao userDao = new UserDaoImpl();
     public static String name;
-    public MusicService.MyBinder myBinder;
+    public static MusicService.MyBinder myBinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mySurfaceView = new CasualMode(this);
+        mySurfaceView = new MediumMode(this);
         getScreenHW();
         MySurfaceView.screenWidth =screenWidth;
         MySurfaceView.screenHeight =screenHeight;
-        Settings.difficulty= Casual;
+        Settings.difficulty= Medium;
         Settings.systemMusicState=ON;
 
         setContentView(mySurfaceView);
