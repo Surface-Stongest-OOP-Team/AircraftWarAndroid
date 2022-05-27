@@ -19,8 +19,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Set;
+
 import edu.hitsz.R;
 import edu.hitsz.application.game.CasualMode;
+import edu.hitsz.application.game.HardMode;
 import edu.hitsz.application.game.MediumMode;
 import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
@@ -35,11 +38,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static MusicService.MyBinder myBinder;
 
     protected void startGame() {
-        mySurfaceView = new MediumMode(this);
+        mySurfaceView = new CasualMode(this);
         getScreenHW();
         MySurfaceView.screenWidth =screenWidth;
         MySurfaceView.screenHeight =screenHeight;
-        Settings.difficulty= Medium;
         Settings.systemMusicState=ON;
 
         //Music Service
@@ -54,7 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menulayout);
         Button button1=(Button) findViewById(R.id.button1);
+        Button button2=(Button) findViewById(R.id.button2);
+        Button button3=(Button) findViewById(R.id.button3);
         button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
     }
 
 
@@ -63,9 +69,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view){
         switch(view.getId()){
             case R.id.button1:
-                startGame();
+                difficulty=Casual;
                 break;
+            case R.id.button2:
+                difficulty=Medium;
+                break;
+            case R.id.button3:
+                difficulty=Hard;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + view.getId());
         }
+        startGame();
     }
 
     class Connect implements ServiceConnection {
