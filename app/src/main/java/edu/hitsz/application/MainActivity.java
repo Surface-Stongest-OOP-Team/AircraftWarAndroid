@@ -1,8 +1,8 @@
 package edu.hitsz.application;
 
-import static edu.hitsz.application.Settings.Difficulty.Casual;
-import static edu.hitsz.application.Settings.Difficulty.Medium;
-import static edu.hitsz.application.Settings.SystemMusicState.OFF;
+import static edu.hitsz.application.Settings.Difficulty.*;
+import static edu.hitsz.application.Settings.difficulty;
+import static edu.hitsz.application.Settings.Difficulty.*;
 import static edu.hitsz.application.Settings.SystemMusicState.ON;
 
 import android.content.ComponentName;
@@ -14,6 +14,8 @@ import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,7 +26,7 @@ import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
 //test message
 //hello Liu Yu
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private MySurfaceView mySurfaceView;
     public static int screenWidth;
     public static int screenHeight;
@@ -32,10 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static String name;
     public static MusicService.MyBinder myBinder;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void startGame() {
         mySurfaceView = new MediumMode(this);
         getScreenHW();
         MySurfaceView.screenWidth =screenWidth;
@@ -43,13 +42,32 @@ public class MainActivity extends AppCompatActivity {
         Settings.difficulty= Medium;
         Settings.systemMusicState=ON;
 
-        setContentView(mySurfaceView);
         //Music Service
         Connect conn = new Connect();
         Intent intent = new Intent(this, MusicService.class);
         bindService(intent, conn, Context.BIND_AUTO_CREATE);
 
+        setContentView(mySurfaceView);
     }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.menulayout);
+        Button button1=(Button) findViewById(R.id.button1);
+        button1.setOnClickListener(this);
+    }
+
+
+
+    @Override
+    public void onClick(View view){
+        switch(view.getId()){
+            case R.id.button1:
+                startGame();
+                break;
+        }
+    }
+
     class Connect implements ServiceConnection {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service){
