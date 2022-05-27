@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AircraftWar</string>
+    <string name="causal">Causal</string>
+    <string name="medium">Medium</string>
+    <string name="aircraftwar">AircraftWar</string>
+    <string name="hard">Hard</string>
+    <string name="String">音效</string>
 </resources>
