@@ -59,7 +59,7 @@ public abstract class AbstractGame extends MySurfaceView {
 
     protected Publisher publisher=new Publisher();
 
-    private boolean gameOverFlag = false;
+
     public int score = 0;
     private int time = 0;
     /**
@@ -152,7 +152,8 @@ public abstract class AbstractGame extends MySurfaceView {
                 if(boss!=null){
                     boss.stopMusic();
                 }
-                gameOverFlag = true;
+                MainActivity.gameOverFlag = true;
+                notify();
             }
 
         };

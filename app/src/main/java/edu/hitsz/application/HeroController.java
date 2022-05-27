@@ -1,6 +1,9 @@
 package edu.hitsz.application;
 
 
+import static edu.hitsz.application.MainActivity.screenHeight;
+import static edu.hitsz.application.MainActivity.screenWidth;
+
 import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +38,10 @@ public class HeroController{
      * 实时监听鼠标位置
      * @author
      */
+    public void setHeroAircraftDefaultPosition(){
+        heroAircraft.setLocation(screenWidth/2,screenHeight/2);
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void setGestureListener() {
         abstractGame.setOnTouchListener(new View.OnTouchListener() {

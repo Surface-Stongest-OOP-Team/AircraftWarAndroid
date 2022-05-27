@@ -1,5 +1,6 @@
 package edu.hitsz.application;
 
+import static java.lang.Thread.sleep;
 import static edu.hitsz.application.Settings.Difficulty.*;
 import static edu.hitsz.application.Settings.difficulty;
 import static edu.hitsz.application.Settings.Difficulty.*;
@@ -9,6 +10,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.IpSecManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.DisplayMetrics;
@@ -34,11 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int screenWidth;
     public static int screenHeight;
     public static UserDao userDao = new UserDaoImpl();
+    public static boolean gameOverFlag = false;
     public static String name;
     public static MusicService.MyBinder myBinder;
 
-    protected void startGame() {
-        mySurfaceView = new CasualMode(this);
+    protected void startGame() throws InterruptedException {
         getScreenHW();
         MySurfaceView.screenWidth =screenWidth;
         MySurfaceView.screenHeight =screenHeight;
@@ -48,8 +50,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Connect conn = new Connect();
         Intent intent = new Intent(this, MusicService.class);
         bindService(intent, conn, Context.BIND_AUTO_CREATE);
-
         setContentView(mySurfaceView);
+        System.out.println("!");
+        System.out.println("!");
+        System.out.println("!");
+        System.out.println("!");
+        System.out.println("!");
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +76,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(view.getId()){
             case R.id.button1:
                 difficulty=Casual;
+                mySurfaceView = new CasualMode(this);
                 break;
             case R.id.button2:
                 difficulty=Medium;
+                mySurfaceView = new MediumMode(this);
                 break;
             case R.id.button3:
                 difficulty=Hard;
+                mySurfaceView = new HardMode(this);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + view.getId());
         }
-        startGame();
+        try {
+            startGame();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     class Connect implements ServiceConnection {
