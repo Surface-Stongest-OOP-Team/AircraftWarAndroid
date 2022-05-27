@@ -1,20 +1,20 @@
 package edu.hitsz.application;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static edu.hitsz.application.Settings.Difficulty.Casual;
+import static edu.hitsz.application.Settings.SystemMusicState.OFF;
+import static edu.hitsz.application.Settings.SystemMusicState.ON;
 
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-
 import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 
-import java.util.Set;
+import androidx.appcompat.app.AppCompatActivity;
 
 import edu.hitsz.R;
 import edu.hitsz.application.game.CasualMode;
@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     public static UserDao userDao = new UserDaoImpl();
     public static String name;
     public MusicService.MyBinder myBinder;
-    private Connect conn;
-    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +36,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mySurfaceView = new CasualMode(this);
         getScreenHW();
-        mySurfaceView.screenWidth=screenWidth;
-        mySurfaceView.screenHeight=screenHeight;
-        Settings.difficulty= Settings.Difficulty.Casual;
+        MySurfaceView.screenWidth =screenWidth;
+        MySurfaceView.screenHeight =screenHeight;
+        Settings.difficulty= Casual;
+        Settings.systemMusicState=ON;
+
         setContentView(mySurfaceView);
-        conn = new Connect();
-        intent = new Intent(this,MusicService.class);
-        bindService(intent,conn, Context.BIND_AUTO_CREATE);
+        //Music Service
+        Connect conn = new Connect();
+        Intent intent = new Intent(this, MusicService.class);
+        bindService(intent, conn, Context.BIND_AUTO_CREATE);
 
     }
     class Connect implements ServiceConnection {
@@ -64,17 +65,6 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth=displayMetrics.widthPixels;
         screenHeight=displayMetrics.heightPixels;
-    }
-    
-    
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            mySurfaceView.x = event.getX();
-            mySurfaceView.y = event.getY();
-        }
-        return  true;
     }
 
     @Override

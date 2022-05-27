@@ -15,8 +15,6 @@ import edu.hitsz.R;
 
 public class MySurfaceView extends SurfaceView implements
         SurfaceHolder.Callback ,Runnable{
-    int count = 0;
-    public float x = 50, y = 50;
     static int screenWidth = 480;
     static int screenHeight = 800;
     boolean mbLoop = false; //控制绘画线程的标志位
@@ -57,55 +55,8 @@ public class MySurfaceView extends SurfaceView implements
         this.setFocusable(true);
     }
 
-    public void draw(){
-        //通过SurfaceHolder对象的lockCanvans()方法，我们可以获取当前的Canvas绘图对象
-//        canvas = mSurfaceHolder.lockCanvas();
-//        if(mSurfaceHolder == null || canvas == null){
-//            return;
-//        }
-//        if(count < 100){
-//            count ++;
-//        }else {
-//            count = 0;
-//        }
-//        mPaint.setAntiAlias(true);
-//        mPaint.setColor(Color.BLUE);
-//        //绘制一个全屏大小的矩形
-//        canvas.drawRect(0,0,screenWidth, screenHeight, mPaint);
-//        switch (count % 4){
-//            case 0:
-//                mPaint.setColor(Color.BLUE);
-//                break;
-//            case 1:
-//                mPaint.setColor(Color.GREEN);
-//                break;
-//            case 2:
-//                mPaint.setColor(Color.RED);
-//                break;
-//            case 3:
-//                mPaint.setColor(Color.YELLOW);
-//                break;
-//            default:
-//                mPaint.setColor(Color.WHITE);
-//        }
-//        //绘制一个圆形
-//        canvas.drawCircle(x,y,50,mPaint);
-//        //通过unlockCanvasAndPost(mCanvas)方法对画布内容进行提交
-//        mSurfaceHolder.unlockCanvasAndPost(canvas);
-    }
+    public void draw(){}
 
-    //    @Override
-//    public void run() {
-//        //设置一个循环来绘制，通过标志位来控制开启绘制还是停止
-//        while (mbLoop){
-//            synchronized (mSurfaceHolder){
-//                draw();
-//            }
-//            try {
-//                Thread.sleep(200);
-//            }catch (Exception e){}
-//        }
-//    }
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         new Thread(this).start();

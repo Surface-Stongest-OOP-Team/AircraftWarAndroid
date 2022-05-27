@@ -1,5 +1,7 @@
 package edu.hitsz.application;
 
+import static edu.hitsz.application.Settings.SystemMusicState.*;
+
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -29,11 +31,17 @@ public class MusicService extends Service {
         mSoundPool = new SoundPool(2, AudioManager.STREAM_SYSTEM, 5);
         soundID.put(1, mSoundPool.load(this, R.raw.bullet_hit, 1));
         soundID.put(2, mSoundPool.load(this, R.raw.game_over, 1));
+        soundID.put(3, mSoundPool.load(this, R.raw.bgm_boss, 1));
+        soundID.put(4, mSoundPool.load(this, R.raw.bomb_explosion, 1));
+        soundID.put(5, mSoundPool.load(this, R.raw.get_supply, 1));
+        soundID.put(6, mSoundPool.load(this, R.raw.bullet, 1));
     }
 
     @Override
     public IBinder onBind(Intent intent){
-        playMusic();
+        if(Settings.systemMusicState==ON) {
+            playBGM();
+        }
         return new MyBinder();
     }
 
@@ -53,7 +61,7 @@ public class MusicService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
     //播放音乐
-    public void playMusic(){
+    public void playBGM(){
         if(player == null){
             player = MediaPlayer.create(this, R.raw.bgm);
             player.setLooping(true);
