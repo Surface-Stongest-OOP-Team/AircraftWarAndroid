@@ -10,6 +10,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.location.GnssAntennaInfo;
+import android.media.MediaCas;
 import android.net.IpSecManager;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -21,6 +23,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.Set;
 
 import edu.hitsz.R;
@@ -42,21 +46,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void startGame() throws InterruptedException {
         getScreenHW();
-        MySurfaceView.screenWidth =screenWidth;
-        MySurfaceView.screenHeight =screenHeight;
-        Settings.systemMusicState=ON;
+        MySurfaceView.screenWidth = screenWidth;
+        MySurfaceView.screenHeight = screenHeight;
+        Settings.systemMusicState = ON;
 
         //Music Service
         Connect conn = new Connect();
         Intent intent = new Intent(this, MusicService.class);
         bindService(intent, conn, Context.BIND_AUTO_CREATE);
-        setContentView(mySurfaceView);
-        System.out.println("!");
-        System.out.println("!");
-        System.out.println("!");
-        System.out.println("!");
-        System.out.println("!");
+        GameActivity.setMySurfaceView(mySurfaceView);
+        intent.setClass(this,GameActivity.class);
+        startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
     }
-
-
 
     @Override
     public void onClick(View view){
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            this.finish();
+            setContentView(R.layout.name);
         }
         return true;
     }

@@ -5,6 +5,7 @@ import static edu.hitsz.application.MainActivity.myBinder;
 import edu.hitsz.aircraft.*;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 
@@ -152,8 +153,8 @@ public abstract class AbstractGame extends MySurfaceView {
                 if(boss!=null){
                     boss.stopMusic();
                 }
-                MainActivity.gameOverFlag = true;
-                notify();
+                Intent intent=new Intent(this.getContext(),NamePanelActivity.class);
+                this.getContext().startActivity(intent);
             }
 
         };
