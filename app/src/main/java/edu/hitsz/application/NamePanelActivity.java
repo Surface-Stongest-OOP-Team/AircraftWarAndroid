@@ -33,8 +33,7 @@ import edu.hitsz.application.game.HardMode;
 import edu.hitsz.application.game.MediumMode;
 import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
-//test message
-//hello Liu Yu
+
 public class NamePanelActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
