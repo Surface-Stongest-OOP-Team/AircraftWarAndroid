@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="用户名:"
+        android:visibility="visible"/>
+
+    <EditText
+        android:id="@+id/usename"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:hint="专家建议叫灰太狼"
+        android:visibility="visible"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="密 码:"
+        android:visibility="visible"
+        />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:inputType="textPassword"
+        android:hint="you'll like 12345678"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确认密码："
+        android:visibility="visible"/>
+
+    <EditText
+        android:id="@+id/password2"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="不会有人这都能输错吧？"
+        android:inputType="textPassword"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:visibility="visible"/>
+
+</LinearLayout>
