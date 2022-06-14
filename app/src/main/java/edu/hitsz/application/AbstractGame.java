@@ -61,7 +61,7 @@ public abstract class AbstractGame extends MySurfaceView {
     protected Publisher publisher=new Publisher();
 
 
-    public int score = 0;
+    public static int score = 0;
     private int time = 0;
     /**
      * 周期（ms)
@@ -105,7 +105,7 @@ public abstract class AbstractGame extends MySurfaceView {
      */
     @Override
     public void run() {
-        //userDao.readFromFile();
+        userDao.readFromFile();
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
 

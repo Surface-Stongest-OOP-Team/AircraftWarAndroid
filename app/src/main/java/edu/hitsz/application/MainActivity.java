@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GameActivity.setMySurfaceView(mySurfaceView);
         intent.setClass(this,GameActivity.class);
         startActivity(intent);
+//        userDao.readFromFile();
     }
 
     @Override
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
+
     }
 
     @Override
