@@ -59,5 +59,19 @@
         android:visibility="visible"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+    <Button
+        android:id="@+id/buttonCon"
+        android:layout_width="362dp"
+        android:layout_height="12dp"
+        android:layout_weight="0.25"
+        android:text="Connet To Server" />
+
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="366dp"
+        android:layout_height="10dp"
+        android:layout_weight="0.25"
+        android:text="SendMessage" />
+
 
 </LinearLayout>

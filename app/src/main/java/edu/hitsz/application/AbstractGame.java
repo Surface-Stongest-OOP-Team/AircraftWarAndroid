@@ -1,6 +1,9 @@
 package edu.hitsz.application;
 
+import static java.lang.Thread.sleep;
 import static edu.hitsz.application.MainActivity.myBinder;
+import static edu.hitsz.application.MainActivity.socket;
+import static edu.hitsz.application.MainActivity.writer;
 
 import edu.hitsz.aircraft.*;
 
@@ -8,6 +11,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.net.SocketKeepalive;
+
+import androidx.annotation.WorkerThread;
+
+import com.google.android.material.circularreveal.CircularRevealLinearLayout;
+
+import org.json.JSONObject;
 
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.bullet.BaseBullet;
@@ -21,8 +31,17 @@ import edu.hitsz.prop.BulletProp;
 import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -52,6 +71,7 @@ public abstract class AbstractGame extends MySurfaceView {
     }
 
     private final HeroAircraft heroAircraft;
+    private PhantomHero phantomHero;
     protected final List<AbstractAircraft> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
@@ -82,6 +102,9 @@ public abstract class AbstractGame extends MySurfaceView {
 
     public AbstractGame(Context context) {
         super(context);
+        phantomHero=new PhantomHero(super.screenWidth / 2,
+                super.screenHeight - ImageManager.HERO_IMAGE.getHeight(),
+                0, 0, 100);
         heroAircraft = HeroAircraft.getInstance(
                 super.screenWidth / 2,
                 super.screenHeight - ImageManager.HERO_IMAGE.getHeight(),
@@ -97,7 +120,50 @@ public abstract class AbstractGame extends MySurfaceView {
 
         //启动英雄机鼠标监听
         new HeroController(this, heroAircraft);
+        new Thread(()-> {
+            while(true){
+                try {
+                    Thread.sleep(100);
+                    Map<String, Integer> tmp=new HashMap<>() ;
+                    tmp.put("X",heroAircraft.getLocationX());
+                    tmp.put("Y",heroAircraft.getLocationY());
+                    JSONObject jsonObject=new JSONObject(tmp);
+                    writer.println(jsonObject.toString());
+                    new Thread(new Client(socket)).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+            }
+        }).start();
+
+    }
+    class Client implements Runnable{
+        private BufferedReader in = null;
+
+        public Client(Socket socket){
+            try{
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
+        }
+
+        @Override
+        public void run() {
+            try {
+                String receivedMessage;
+                while ((receivedMessage = in.readLine()) != null) {
+                    System.out.println(receivedMessage);
+                    JSONObject jsonObject=new JSONObject(receivedMessage);
+                    phantomHero.setLocation(jsonObject.getInt("X"),jsonObject.getInt("Y"));
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -407,6 +473,7 @@ public abstract class AbstractGame extends MySurfaceView {
             }
         }
         canvas.drawBitmap(ImageManager.HERO_IMAGE, heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2, heroAircraft.getLocationY()-ImageManager.HERO_IMAGE.getHeight()/2, mPaint);
+        canvas.drawBitmap(ImageManager.HERO_IMAGE, phantomHero.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2, phantomHero.getLocationY()-ImageManager.HERO_IMAGE.getHeight()/2, mPaint);
     }
 
     private void drawScoreAndLife(){
