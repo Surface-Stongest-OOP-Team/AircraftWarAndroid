@@ -32,6 +32,7 @@ public class MySurfaceView extends SurfaceView implements
         ImageManager.BACKGROUND_IMAGE5 = BitmapFactory.decodeResource(getResources(), R.drawable.bg5);;
 
         ImageManager.HERO_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.hero);
+        ImageManager.PHANTOM_HERO_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.phantom_hero);
         ImageManager.MOB_ENEMY_IMAGE = BitmapFactory.decodeResource(getResources(), R.drawable.mob);
         ImageManager.ELITE_IMAGE=BitmapFactory.decodeResource(getResources(), R.drawable.elite);
 

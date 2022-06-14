@@ -10,6 +10,7 @@ import edu.hitsz.aircraft.Boss;
 import edu.hitsz.aircraft.Elite;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.aircraft.MobEnemy;
+import edu.hitsz.aircraft.PhantomHero;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.bullet.HeroBullet;
 import edu.hitsz.prop.BloodProp;
@@ -36,6 +37,7 @@ public class ImageManager {
     public static Bitmap BACKGROUND_IMAGE4;
     public static Bitmap BACKGROUND_IMAGE5;
     public static Bitmap HERO_IMAGE;
+    public static Bitmap PHANTOM_HERO_IMAGE;
     public static Bitmap HERO_BULLET_IMAGE;
     public static Bitmap ENEMY_BULLET_IMAGE;
     public static Bitmap MOB_ENEMY_IMAGE;
@@ -57,6 +59,7 @@ public class ImageManager {
         CLASSNAME_IMAGE_MAP.put(BloodProp.class.getName(), PROP_BLOOD_IMAGE);
         CLASSNAME_IMAGE_MAP.put(BombProp.class.getName(), PROP_BOMB_IMAGE);
         CLASSNAME_IMAGE_MAP.put(BulletProp.class.getName(), PROP_BULLET_IMAGE);
+        CLASSNAME_IMAGE_MAP.put(PhantomHero.class.getName(),PHANTOM_HERO_IMAGE);
     }
 
     public static Bitmap get(String className){

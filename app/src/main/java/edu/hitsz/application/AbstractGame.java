@@ -498,7 +498,7 @@ public abstract class AbstractGame extends MySurfaceView {
             }
         }
         canvas.drawBitmap(ImageManager.HERO_IMAGE, heroAircraft.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2, heroAircraft.getLocationY()-ImageManager.HERO_IMAGE.getHeight()/2, mPaint);
-        canvas.drawBitmap(ImageManager.HERO_IMAGE, phantomHero.getLocationX() - ImageManager.HERO_IMAGE.getWidth() / 2, phantomHero.getLocationY()-ImageManager.HERO_IMAGE.getHeight()/2, mPaint);
+        canvas.drawBitmap(ImageManager.PHANTOM_HERO_IMAGE, phantomHero.getLocationX() - ImageManager.PHANTOM_HERO_IMAGE.getWidth() / 2, phantomHero.getLocationY()-ImageManager.HERO_IMAGE.getHeight()/2, mPaint);
     }
 
     private void drawScoreAndLife(){
