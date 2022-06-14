@@ -82,6 +82,7 @@ public abstract class AbstractGame extends MySurfaceView {
 
 
     public int score = 0;
+    public int allyScore=0;
     private int time = 0;
     /**
      * 周期（ms)
@@ -139,9 +140,15 @@ public abstract class AbstractGame extends MySurfaceView {
             try {
                 String receivedMessage;
                 while ((receivedMessage = in.readLine()) != null) {
-                    System.out.println(receivedMessage);
                     JSONObject jsonObject=new JSONObject(receivedMessage);
-                    phantomHero.setLocation(jsonObject.getInt("X"),jsonObject.getInt("Y"));
+                    switch(jsonObject.getInt("type")){
+                        case 0:
+                        phantomHero.setLocation(jsonObject.getInt("X"), jsonObject.getInt("Y"));
+                        break;
+                        case 1:
+                            allyScore=jsonObject.getInt("Score");
+                            break;
+                    }
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -161,10 +168,27 @@ public abstract class AbstractGame extends MySurfaceView {
                 try {
                     Thread.sleep(33);
                     Map<String, Integer> tmp=new HashMap<>() ;
+                    tmp.put("type",0);
                     tmp.put("X",heroAircraft.getLocationX());
                     tmp.put("Y",heroAircraft.getLocationY());
                     JSONObject jsonObject=new JSONObject(tmp);
-                    writer.println(jsonObject.toString());
+                    writer.println(jsonObject);
+                    new Thread(new Client(socket)).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+        new Thread(()-> {
+            while(true){
+                try {
+                    Thread.sleep(1000);
+                    Map<String, Integer> tmp=new HashMap<>() ;
+                    tmp.put("type",1);
+                    tmp.put("Score",score);
+                    JSONObject jsonObject=new JSONObject(tmp);
+                    writer.println(jsonObject);
                     new Thread(new Client(socket)).start();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -481,6 +505,7 @@ public abstract class AbstractGame extends MySurfaceView {
         mPaint.setTextSize(40);
         canvas.drawText("Score:"+score,5,35,mPaint);
         canvas.drawText("Life:"+heroAircraft.getHp(),5,80,mPaint);
+        canvas.drawText("AllyScore:"+allyScore,5,125,mPaint);
     }
 //    @Override
 //    public void paint(Graphics g) {

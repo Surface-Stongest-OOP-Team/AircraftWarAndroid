@@ -25,20 +25,6 @@ public class PhantomHero extends AbstractAircraft implements Serializable {
     public PhantomHero(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
     }
-    public String serializeToString() throws Exception{
-        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-        ObjectOutputStream objOut = new ObjectOutputStream(byteOut);
-        objOut.writeObject(this);
-        String str = byteOut.toString("ISO-8859-1");//此处只能是ISO-8859-1,但是不会影响中文使用
-        return str;
-    }
-    //反序列化
-    public static PhantomHero deserializeToObject(String str) throws Exception{
-        ByteArrayInputStream byteIn = new ByteArrayInputStream(str.getBytes("ISO-8859-1"));
-        ObjectInputStream objIn = new ObjectInputStream(byteIn);
-        PhantomHero obj = (PhantomHero) objIn.readObject();
-        return obj;
-    }
 
     @Override
     public List<BaseBullet> shoot() {
