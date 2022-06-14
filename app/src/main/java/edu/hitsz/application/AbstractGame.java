@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class AbstractGame extends MySurfaceView {
     private double backGroundTop = 0;
-    UserDao userDao=new UserDaoImpl();
+
     /**
      * Scheduled 线程池，用于任务调度
      */
@@ -163,7 +163,7 @@ public abstract class AbstractGame extends MySurfaceView {
      */
     @Override
     public void run() {
-        userDao.readFromFile();
+
         new Thread(()-> {
             while(true){
                 try {

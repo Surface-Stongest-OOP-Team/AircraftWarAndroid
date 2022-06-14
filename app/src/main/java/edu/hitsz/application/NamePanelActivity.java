@@ -1,7 +1,7 @@
 package edu.hitsz.application;
 
 import static java.lang.Thread.sleep;
-import static edu.hitsz.application.MainActivity.userDao;
+
 import static edu.hitsz.application.Settings.Difficulty.*;
 import static edu.hitsz.application.Settings.difficulty;
 import static edu.hitsz.application.Settings.Difficulty.*;
@@ -27,6 +27,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.EventListener;
 import java.util.EventObject;
@@ -41,6 +42,7 @@ import edu.hitsz.user.UserDao;
 import edu.hitsz.user.UserDaoImpl;
 
 public class NamePanelActivity extends AppCompatActivity implements View.OnClickListener {
+
     String name= new String("player");
     Date date = new Date(System.currentTimeMillis());
     @Override
@@ -69,8 +71,13 @@ public class NamePanelActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.button){
-            userDao.addUser(new User((int) (Math.random() * 1000000), name, MainActivity.score, date));
-//            userDao.writeToFile();
+            UserDao userDao=new UserDaoImpl(NamePanelActivity.this);
+            try {
+                userDao.addUser(new User((int) (Math.random() * 1000000), name, MainActivity.score, date));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             Intent intent =new Intent(this,RankListActivity.class);
             startActivity(intent);
         }
