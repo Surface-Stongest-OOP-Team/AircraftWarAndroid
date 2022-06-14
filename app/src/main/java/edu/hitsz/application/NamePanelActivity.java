@@ -40,14 +40,9 @@ public class NamePanelActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.name);
-        Button button=(Button) findViewById(R.id.button);
-        button.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
-        if(v.getId()==R.id.button){
-            Intent intent =new Intent(this,RankListActivity.class);
-            startActivity(intent);
-        }
+
     }
 }
