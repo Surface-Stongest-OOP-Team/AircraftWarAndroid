@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static int screenHeight;
     public static UserDao userDao = new UserDaoImpl();
     public static boolean gameOverFlag = false;
-    public static String name;
+    public static int score;
     public static MusicService.MyBinder myBinder;
 
     public static Socket socket;

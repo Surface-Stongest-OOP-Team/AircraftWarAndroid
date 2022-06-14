@@ -1,7 +1,6 @@
 package edu.hitsz.application;
 
 import static java.lang.Thread.sleep;
-import static edu.hitsz.application.AbstractGame.score;
 import static edu.hitsz.application.MainActivity.userDao;
 import static edu.hitsz.application.Settings.Difficulty.*;
 import static edu.hitsz.application.Settings.difficulty;
@@ -70,7 +69,7 @@ public class NamePanelActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.button){
-            userDao.addUser(new User((int) (Math.random() * 1000000), name, score, date));
+            userDao.addUser(new User((int) (Math.random() * 1000000), name, MainActivity.score, date));
 //            userDao.writeToFile();
             Intent intent =new Intent(this,RankListActivity.class);
             startActivity(intent);

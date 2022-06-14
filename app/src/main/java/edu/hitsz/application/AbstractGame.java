@@ -240,7 +240,7 @@ public abstract class AbstractGame extends MySurfaceView {
                 // 游戏结束
 
                 executorService.shutdown();
-
+                MainActivity.score=score;
                 myBinder.stopMusic();
                 if(boss!=null){
                     boss.stopMusic();
