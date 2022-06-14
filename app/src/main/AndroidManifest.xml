@@ -28,6 +28,7 @@
         <activity android:name=".application.GameActivity"/>
         <activity android:name=".application.NamePanelActivity"/>
         <activity android:name=".application.RankListActivity"/>
+        <activity android:name=".application.LoginActivity"/>
     </application>
 
 </manifest>

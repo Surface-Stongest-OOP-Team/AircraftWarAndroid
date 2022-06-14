@@ -2,6 +2,7 @@ package edu.hitsz.application;
 
 import static java.lang.Thread.sleep;
 import static edu.hitsz.application.Settings.Difficulty.*;
+import static edu.hitsz.application.Settings.SystemMusicState.OFF;
 import static edu.hitsz.application.Settings.difficulty;
 import static edu.hitsz.application.Settings.SystemMusicState.ON;
 
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,6 +31,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Set;
 
 import edu.hitsz.R;
 import edu.hitsz.aircraft.PhantomHero;
@@ -49,15 +52,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static MusicService.MyBinder myBinder;
 
     public static Socket socket;
+    public static int port;
     public static PrintWriter writer;
-    String receivedMessage;
-    protected class NetConn extends Thread {
+    public static class NetConn extends Thread {
         @Override
         public void run() {
             try {
                 socket = new Socket();
                 socket.connect(new InetSocketAddress
-                        (/*"192.168.137.1"*/"10.249.63.162", 9999), 5000);
+                        ("10.249.63.162", port), 5000);
                 writer = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(
                                 socket.getOutputStream(), "ISO-8859-1")), true);
@@ -69,43 +72,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
-    class Client implements Runnable{
-        private BufferedReader in = null;
 
-        public Client(Socket socket){
-            try{
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            }catch (IOException ex){
-                ex.printStackTrace();
-            }
-        }
-
-        @Override
-        public void run() {
-            try {
-                while ((receivedMessage = in.readLine()) != null) {
-                    System.out.println(receivedMessage);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-    protected void startGame() throws InterruptedException {
+    public void startGame() throws InterruptedException {
         getScreenHW();
         MySurfaceView.screenWidth = screenWidth;
         MySurfaceView.screenHeight = screenHeight;
-        Settings.systemMusicState = ON;
-
         //Music Service
         Connect conn = new Connect();
         Intent intent = new Intent(this, MusicService.class);
         bindService(intent, conn, Context.BIND_AUTO_CREATE);
         GameActivity.setMySurfaceView(mySurfaceView);
-        intent.setClass(this,GameActivity.class);
-        startActivity(intent);
     }
 
+    Switch switch1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,72 +92,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button button1=(Button) findViewById(R.id.button1);
         Button button2=(Button) findViewById(R.id.button2);
         Button button3=(Button) findViewById(R.id.button3);
-        Button buttonCon=(Button) findViewById(R.id.buttonCon);
-        Button buttonSend=(Button) findViewById(R.id.buttonSend);
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
-        buttonCon.setOnClickListener(this);
-        buttonSend.setOnClickListener(this);
-
-        new Thread(new NetConn()).start();
+        switch1=(Switch) findViewById(R.id.switch1);
     }
 
     @Override
     public void onClick(View view){
         switch(view.getId()){
             case R.id.button1:
-                try {
-                    difficulty=Casual;
-                    mySurfaceView = new CasualMode(this);
-                    startGame();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                difficulty=Casual;
+                mySurfaceView = new CasualMode(this);
                 break;
             case R.id.button2:
-                try {
-                    difficulty=Medium;
-                    mySurfaceView = new MediumMode(this);
-                    startGame();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                difficulty=Medium;
+                mySurfaceView = new MediumMode(this);
                 break;
             case R.id.button3:
-                try {
-                    difficulty=Hard;
-                    mySurfaceView = new HardMode(this);
-                    startGame();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.buttonCon:
-                new Thread(()->{
-                    Log.i("client","waiting for connection");
-                    while(!socket.isConnected());
-                    new Thread(new Client(socket)).start();
-                }).start();
-                break;
-            case R.id.buttonSend:
-                String sss= null;
-                try {
-                    sss = (new PhantomHero(233,233,0,0,0).serializeToString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    PhantomHero xxx= PhantomHero.deserializeToObject(sss);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                difficulty=Hard;
+                mySurfaceView = new HardMode(this);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + view.getId());
         }
-
+        Settings.systemMusicState=switch1.isSelected()?ON:OFF;
+        try {
+            startGame();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Intent intent=new Intent(this,LoginActivity.class);
+        startActivity(intent);
     }
 
     class Connect implements ServiceConnection {

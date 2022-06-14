@@ -120,22 +120,7 @@ public abstract class AbstractGame extends MySurfaceView {
 
         //启动英雄机鼠标监听
         new HeroController(this, heroAircraft);
-        new Thread(()-> {
-            while(true){
-                try {
-                    Thread.sleep(100);
-                    Map<String, Integer> tmp=new HashMap<>() ;
-                    tmp.put("X",heroAircraft.getLocationX());
-                    tmp.put("Y",heroAircraft.getLocationY());
-                    JSONObject jsonObject=new JSONObject(tmp);
-                    writer.println(jsonObject.toString());
-                    new Thread(new Client(socket)).start();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-            }
-        }).start();
 
     }
     class Client implements Runnable{
@@ -171,6 +156,22 @@ public abstract class AbstractGame extends MySurfaceView {
      */
     @Override
     public void run() {
+        new Thread(()-> {
+            while(true){
+                try {
+                    Thread.sleep(33);
+                    Map<String, Integer> tmp=new HashMap<>() ;
+                    tmp.put("X",heroAircraft.getLocationX());
+                    tmp.put("Y",heroAircraft.getLocationY());
+                    JSONObject jsonObject=new JSONObject(tmp);
+                    writer.println(jsonObject.toString());
+                    new Thread(new Client(socket)).start();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
         //userDao.readFromFile();
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
