@@ -163,6 +163,7 @@ public abstract class AbstractGame extends MySurfaceView {
      */
     @Override
     public void run() {
+        userDao.readFromFile();
         new Thread(()-> {
             while(true){
                 try {
