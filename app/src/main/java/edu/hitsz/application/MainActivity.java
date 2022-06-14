@@ -30,7 +30,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import edu.hitsz.NetData.Position;
 import edu.hitsz.R;
 import edu.hitsz.aircraft.PhantomHero;
 import edu.hitsz.application.game.CasualMode;
@@ -57,9 +56,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void run() {
             try {
                 socket = new Socket();
-                //运行时修改成服务器的IP
                 socket.connect(new InetSocketAddress
-                        ("192.168.137.1", 9999), 5000);
+                        (/*"192.168.137.1"*/"10.249.63.162", 9999), 5000);
                 writer = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(
                                 socket.getOutputStream(), "ISO-8859-1")), true);
